@@ -3,8 +3,11 @@ package com.spring.project.controller;
 import com.spring.project.model.CloudVendor;
 import com.spring.project.service.CloudVendorService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 
 
 @RestController
@@ -26,13 +29,16 @@ public class Controller {
         return "Greetings from Spring Boot 2!";
     }
 
+    @GetMapping("/details/{id}")
+    public ResponseEntity<CloudVendor> getCloudAPI(@PathVariable String id)
+    {
+        return new ResponseEntity<>(cloudVendorService.getCloudVendor(id),HttpStatus.OK);
+    }
     @GetMapping("/details")
-    public CloudVendor getCloudAPI()
+    public ResponseEntity<List<CloudVendor>> getAllCloudAPI()
     {
 
-        // return new CloudVendor("1","Abc","Address1","9218383");
-        /* return cloudVendor;*/
-        return null;
+        return new ResponseEntity<>(cloudVendorService.getAllCloudVendor(), HttpStatus.OK);
     }
 
     @PostMapping("/vendor/create")
@@ -54,7 +60,7 @@ public class Controller {
     @DeleteMapping("/vendor/delete/{id}")
     public String deleteCloudVendor(@PathVariable String id)
     {
-        /*this.cloudVendor=null;*/
+        cloudVendorService.deleteCloudVendor(id);
         return "cloudVendor deleted successfully";
 
     }

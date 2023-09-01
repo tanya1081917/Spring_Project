@@ -1,6 +1,7 @@
 package com.spring.project.service;
 
 
+import com.spring.project.exception.CloudVendorNotFoundException;
 import com.spring.project.model.CloudVendor;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +12,6 @@ public interface CloudVendorService {
     public String createCloudVendor(CloudVendor cloudVendor);
     public String updateCloudVendor(CloudVendor cloudVendor);
     public String deleteCloudVendor(String cloudVendorID);
-    public CloudVendor getCloudVendor(String cloudVendorID);
+    public CloudVendor getCloudVendor(String cloudVendorID) throws CloudVendorNotFoundException;
     public List<CloudVendor> getAllCloudVendor();
 }
