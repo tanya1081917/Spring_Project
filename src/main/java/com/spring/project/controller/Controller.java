@@ -1,6 +1,7 @@
 package com.spring.project.controller;
 
 import com.spring.project.model.CloudVendor;
+import com.spring.project.response.ResponseHandler;
 import com.spring.project.service.CloudVendorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,10 +17,13 @@ public class Controller {
 
     @Autowired
     CloudVendorService cloudVendorService;
+    @Autowired
+    ResponseHandler responseHandler;
     /* @Autowired
      CloudVendor cloudVendor;*/
-    public Controller(CloudVendorService cloudVendorService) {
+    public Controller(CloudVendorService cloudVendorService,ResponseHandler responseHandler) {
         this.cloudVendorService = cloudVendorService;
+        this.responseHandler = responseHandler;
         /* this.cloudVendor = cloudVendor;*/
     }
 
@@ -30,15 +34,17 @@ public class Controller {
     }
 
     @GetMapping("/details/{id}")
-    public ResponseEntity<CloudVendor> getCloudAPI(@PathVariable String id)
+    public ResponseEntity<Object> getCloudAPI(@PathVariable String id)
     {
-        return new ResponseEntity<>(cloudVendorService.getCloudVendor(id),HttpStatus.OK);
+        return responseHandler.responseBuilder("get object",HttpStatus.OK,cloudVendorService.getCloudVendor(id));
+
     }
     @GetMapping("/details")
-    public ResponseEntity<List<CloudVendor>> getAllCloudAPI()
+    public ResponseEntity<Object> getAllCloudAPI()
     {
+        return responseHandler.responseBuilder("get object",HttpStatus.OK,cloudVendorService.getAllCloudVendor());
 
-        return new ResponseEntity<>(cloudVendorService.getAllCloudVendor(), HttpStatus.OK);
+        //return new ResponseEntity<>(cloudVendorService.getAllCloudVendor(), HttpStatus.OK);
     }
 
     @PostMapping("/vendor/create")
