@@ -3,18 +3,22 @@ package com.spring.project.controller;
 import com.spring.project.model.CloudVendor;
 import com.spring.project.response.ResponseHandler;
 import com.spring.project.service.CloudVendorService;
+
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import org.slf4j.Logger;
 
 
 @RestController
 public class Controller {
 
 
+    private static final Logger loginfo = LoggerFactory.getLogger(Controller.class);
     @Autowired
     CloudVendorService cloudVendorService;
     @Autowired
@@ -28,18 +32,20 @@ public class Controller {
     }
 
 
-    @GetMapping(value="")
+    @GetMapping(value="/vendor/1")
     public String index() {
-        return "Greetings from Spring Boot 2!";
+        loginfo.info("logging is enable");
+        loginfo.debug("Vendor debug logging is on");
+        return "Greetings from Spring Boot 4!";
     }
 
-    @GetMapping("/details/{id}")
+    @GetMapping("/vendor/details/{id}")
     public ResponseEntity<Object> getCloudAPI(@PathVariable String id)
     {
         return responseHandler.responseBuilder("get object",HttpStatus.OK,cloudVendorService.getCloudVendor(id));
 
     }
-    @GetMapping("/details")
+    @GetMapping("/vendor/details")
     public ResponseEntity<Object> getAllCloudAPI()
     {
         return responseHandler.responseBuilder("get object",HttpStatus.OK,cloudVendorService.getAllCloudVendor());
